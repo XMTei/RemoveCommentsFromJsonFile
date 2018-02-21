@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoveCommentsFromJsonFile", "RemoveCommentsFromJsonFile\RemoveCommentsFromJsonFile.csproj", "{7AE6501C-32CF-4B37-81C2-8E6A1FD22BF9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7AE6501C-32CF-4B37-81C2-8E6A1FD22BF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AE6501C-32CF-4B37-81C2-8E6A1FD22BF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AE6501C-32CF-4B37-81C2-8E6A1FD22BF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AE6501C-32CF-4B37-81C2-8E6A1FD22BF9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EE0EC1A7-881F-4766-B2ED-4AF827452E8B}
+	EndGlobalSection
+EndGlobal

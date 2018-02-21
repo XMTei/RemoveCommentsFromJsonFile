@@ -1,0 +1,35 @@
+﻿[
+	{ //[0] for English(en).
+		"Lang": "en-US",
+		"Strings": {
+			"Header": { //use ["Header"] to get this value, "Header" is an ID of a element
+				"html": "Select a JSON file that contains comments and get a non-comment one" //for innerhtml of this element of this ID
+			},
+			"UploadFiles": {
+				"title": "Select a JSON file to get a non-comment one"
+			}
+		}
+	},
+	{ //[1] for Chinese(zh),need to consider Simplified or Traditional Chinese
+		"Lang": "zh-Hans",
+		"Strings": {
+			"Header": {
+				"html": "选择一个包含说明的JSON文件，将被转换围没有说明的JSON文件。"
+			},
+			"UploadFiles": {
+				"title": "选择一个JSON文件获取其不带说明的JSON文件。"
+			}
+		}
+	},
+	{ //[1] for Chinese(zh),need to consider Simplified or Traditional Chinese
+		"Lang": "ja-JP",
+		"Strings": {
+			"Header": {
+				"html": "コメント込みのJSONファイルを選択して、コメントのないJSONへ変換します。"
+			},
+			"UploadFiles": {
+				"title": "コメント込みのJSONファイルを選択して、コメントのないJSONを取得します。"
+			}
+		}
+	}
+]
