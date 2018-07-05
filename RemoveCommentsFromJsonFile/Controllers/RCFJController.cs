@@ -141,7 +141,7 @@ namespace RemoveCommentsFromJsonFile.Controllers
 		}
 
 		//************************************************************************
-		//Name: 	Upload
+		//Name: 	UploadJsonFile
 		//Author: 	Zheng XM (2018/2/19)
 		//Modify:
 		//Modify:
@@ -168,7 +168,7 @@ namespace RemoveCommentsFromJsonFile.Controllers
 		//				$.ajax(settings);
 		//
 		[HttpPost("Upload")]
-		public async Task<ActionResult> Upload(ICollection<IFormFile> value)//want to get the data form ajax, but does not work
+		public async Task<ActionResult> UploadJsonFile(ICollection<IFormFile> value)//want to get the data form ajax, but does not work
 		{
 			ActionResult oRcd = await Task.Run(() =>
 			{//use async to make return data

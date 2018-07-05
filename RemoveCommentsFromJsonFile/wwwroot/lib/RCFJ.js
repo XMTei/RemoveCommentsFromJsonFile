@@ -103,7 +103,7 @@ function UploadFiles(e) {
 	var settings = {
 		//async: false,
 		//crossDomain: true,
-		url: uri + "/Upload",//gifdataController.Upload() will be called
+		url: uri + "/UploadJsonFile",//gifdataController.Upload() will be called
 		method: "POST",
 		headers: {//Use header to set the content type
 			'content-type': "multipart/form-data"//tell server that it will get form data
