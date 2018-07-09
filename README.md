@@ -21,3 +21,4 @@ A single page Web application that can remove all comments from uploaed JSON fil
 
 ## Features
 - Remove all comments from uploaded JSON file and save it to download folder.
+- Multi-language UI.
