@@ -92,27 +92,32 @@ function GetUIStrings() {
 //Modify:
 //Return:  	
 //Description: upload selected files
+//			refer https://github.com/DmitrySikorsky/AspNetCoreFileUploading
 //
 function UploadFiles(e) {
 	$('#ShowErrorMessage').hide();//首先关闭所显示的Error
 	var files = e.currentTarget.files;
 	var data = new FormData();
+	var strFileName = "";
 	for (var i = 0; i < files.length; i++) {
 		data.append(files[i].name, files[i]);
+		strFileName = files[i].name;
 	}
+
 	var settings = {
 		//async: false,
 		//crossDomain: true,
 		url: uri + "/UploadJsonFile",//gifdataController.Upload() will be called
 		method: "POST",
-		headers: {//Use header to set the content type
-			'content-type': "multipart/form-data"//tell server that it will get form data
-			//"cache-control": "no-cache"
-		},
-		//contentType: false,//use headers.content-type to set the content type
+		//do not use headers. this cause RCFJCongroller can not get Request.Form, an Excetion occured
+		//headers: {//Use header to set the content type
+		//	'content-type': "multipart/form-data"//tell server that it will get form data
+		//	//"cache-control": "no-cache"
+		//},
+		contentType: false,//use headers.content-type to set the content type
 		processData: false,
 		cache: false,
-		dataType: 'json',
+		//dataType: 'json',
 		data: data,
 		xhr: function () {
 			var oUploadProgress = $("#UploadProgress");
@@ -133,16 +138,23 @@ function UploadFiles(e) {
 			//hide upload progress
 			$("#UploadProgressbar").hide();
 			//check completed message 
-			//var contentType = xhr.getResponseHeader("content-type") || "";
-			//if (contentType.indexOf("json") >= 0) {//we need JSON data
-			//	if ((data) && (data != '')) {
-			//		var strMsg = data;
-			//		if (oUIStringDic) {
-			//			strMsg = oUIStringDic.Constant.UnuploadedFiles + data;
-			//		}
-			//		alert(strMsg);
-			//	}
-			//}
+			var contentType = xhr.getResponseHeader("content-type") || "";
+			if (contentType.indexOf("json") >= 0) {//we need JSON data
+				if (data) {
+					var strMsg = data;
+					if (data.type) {
+						if (data.type.indexOf('Json') >= 0) {
+							SaveTextFile(data.data, strFileName);
+						}
+					}
+					else if (data != "") {
+						if (oUIStringDic) {
+							strMsg = oUIStringDic.Constant.UnuploadedFiles + data;
+						}
+						alert(strMsg);
+					}
+				}
+			}
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
 			//hide upload progress
@@ -315,65 +327,18 @@ function ShowHideOnProcessing(bShow) {	//true:show
 //				Safari(MacOS)	OK？？
 //				Safari(iOS)		NG,去掉保存按钮
 //
-function SaveAs(oBtn) {//strType:'plain/text','plain/text','image/png'...
-	if (oBtn) {
-		var oImageSrc = $('#Imagedata').attr('src');//获取Preview中的数据，此数据必须是 "data:image/png;base64," + base64data 或"data:image/svg+xml;base64," + base64data
-		if (oImageSrc) {
-			var nComa = oImageSrc.indexOf(',');
-			if (nComa > 0) {
-				var oData = atob(oImageSrc.slice(nComa + 1));//由Base64转为原文
-				var strFileName = 'ITLLettering';
-				//var strType = 'plain/text';	//Safari不工作
-				var strType = 'attachment/text;charset=utf-8';//Safari不工作
-				if (oImageSrc.indexOf('png') > 0) {
-					strType = 'image/png';//目前保存不了PNG，有待处理
-					strFileName += '.png'
-				} else {
-					strFileName += '.svg'
-				}
-				if (oData) {
-					var aData = [oData];
-					aData.push()
-					properties = { type: strType }; // Specify the file's mime-type.
-					file = new Blob(aData, properties);
-					//以下是调用FileSaver.js
-					saveAs(file, strFileName);
-
-					//以下是自己做的，其能力如下
-					//				IE				OK
-					//				Edge				OK
-					//				Chrome(Win)		OK
-					//				Chrome(MacOS)	OK
-					//				Chrome(iOS)		NG,本来就不能保存，所以此时要把保存按钮去掉
-					//				Safari(MacOS)	NG
-					//				Safari(iOS)		NG,本来就不能保存，所以此时要把保存按钮去掉
-					//if (navigator.appVersion.toString().indexOf('.NET') > 0) {//IE的时候，需要特殊对待了
-					//	window.navigator.msSaveBlob(file, strFileName);
-					//} else {
-					//	//创建一个<a>
-					//	var downloadLink = document.createElement("a");
-					//	downloadLink.download = strFileName;//指定下载的文件名
-					//	downloadLink.innerHTML = "Download File";//内部为DownloadFile
-					//	if (window.webkitURL != null) {
-					//		// Chrome allows the link to be clicked
-					//		// without actually adding it to the DOM.
-					//		downloadLink.href = window.webkitURL.createObjectURL(file);
-					//	}
-					//	else {//此部分未经测试，不知是否工作
-					//		// Firefox requires the link to be added to the DOM
-					//		// before it can be clicked.
-					//		downloadLink.href = window.URL.createObjectURL(file);
-					//		downloadLink.onclick = function () {
-					//			document.body.removeChild(event.target);
-					//		};
-					//		downloadLink.style.display = "none";
-					//		document.body.appendChild(downloadLink);
-					//	}
-
-					//	downloadLink.click();//执行下载
-					//}
-				}
-			}
+function SaveTextFile(strText,strFileName) {
+	if ((strText) && (strText != "")) {
+		if ((strFileName == null) || (strFileName == "")) {
+			strFileName = "TextNoComment.json"
 		}
+		//var strType = 'plain/text';	//Safari不工作
+		var strType = 'attachment/text;charset=utf-8';//Safari不工作
+		var aData = [strText];
+		aData.push()
+		properties = { type: strType }; // Specify the file's mime-type.
+		file = new Blob(aData, properties);
+		//以下是调用FileSaver.js
+		saveAs(file, strFileName);
 	}
 }

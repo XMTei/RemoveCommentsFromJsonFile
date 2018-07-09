@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 using RemoveCommentsFromJsonFile.Models;
+using System.Text.RegularExpressions;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -65,10 +66,6 @@ namespace RemoveCommentsFromJsonFile.Controllers
 		//					"crossDomain": true,
 		//					"url": '/api/RCFJ/GetUIStrings/',
 		//					"method": "POST",
-		//					"headers": {
-		//						"content-type": "application/json",
-		//						"cache-control": "no-cache",
-		//					},
 		//					"data": jsondata,
 		//					"success": function(data, status, xhr)
 		//					{
@@ -167,7 +164,7 @@ namespace RemoveCommentsFromJsonFile.Controllers
 		//				};
 		//				$.ajax(settings);
 		//
-		[HttpPost("Upload")]
+		[HttpPost("UploadJsonFile")]
 		public async Task<ActionResult> UploadJsonFile(ICollection<IFormFile> value)//want to get the data form ajax, but does not work
 		{
 			ActionResult oRcd = await Task.Run(() =>
@@ -176,36 +173,66 @@ namespace RemoveCommentsFromJsonFile.Controllers
 				//file directory to save all the uploaded file
 				try
 				{
+					string strMessage = string.Empty;
 					var oFiles = Request.Form.Files;//got uploaded files. 
-					foreach (var oFile in oFiles)
+					if ((oFiles.Count > 0) && (oFiles[0] != null))
 					{
+						var oFile = oFiles[0];
 						string strUnuploaedFile = oFile.Name;
 						string strExt = Path.GetExtension(oFile.Name);
-						if (!string.IsNullOrEmpty(strExt))
+						if ((!string.IsNullOrEmpty(strExt))&&
+							(strExt.Equals(".json", StringComparison.OrdinalIgnoreCase)))
 						{
-							if (strExt.Equals(".json", StringComparison.OrdinalIgnoreCase))
-							{//start upload
-								//nSize += oFile.Length;
-								using (MemoryStream oMemoryStream = new MemoryStream())
+							using (MemoryStream oMemoryStream = new MemoryStream())
+							{
+								oFile.CopyTo(oMemoryStream);
+								oMemoryStream.Flush();
+								string strJsonWithCommnent = string.Empty;
+								using (StreamReader osReader = new StreamReader(oMemoryStream))
 								{
-									oFile.CopyTo(oMemoryStream);
-									oMemoryStream.Flush();
-									string strJsonWithCommnent = string.Empty;
-									using(StreamReader osReader = new StreamReader(oMemoryStream))
-									{
-										strJsonWithCommnent = osReader.ReadToEnd();
-									}
+									osReader.BaseStream.Seek(0, SeekOrigin.Begin);
+									//for (; ; )
+									//{
+									//	string strLine = osReader.ReadLine();
+									//	if (strLine == null)
+									//	{//end of file
+									//		break;
+									//	}
+									//	else
+									//	{
+									//		strLine = strLine.Trim();
+									//		if ((strLine != string.Empty) && !Regex.IsMatch(strLine, @"^\s*;(.*)$"))
+									//		{
+									//			if (Regex.IsMatch(strLine, @"^(.*);(.*)$"))
+									//				sb.AppendLine(line.Substring(0, line.IndexOf(';')).Trim());
+									//			else
+									//				sb.AppendLine(line);
+									//		}
+									//		strJsonWithCommnent += strTemp + System.Environment.NewLine;
+									//	}
+									//}
+									strJsonWithCommnent = osReader.ReadToEnd();
+									var re = @"(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|//.*|/\*(?s:.*?)\*/";
+									ResponseParam oResponseParam = new ResponseParam
+									{//返回所有可选择的字体
+										Type = DataType.Json,
+										Data = Regex.Replace(strJsonWithCommnent, re, "$1"),
+										CallFiFoGUID = -1
+									};
+									oJson = Json(oResponseParam);
 								}
-								strUnuploaedFile = string.Empty;//successed for upload
 							}
 						}
+						else
+						{
+							strMessage = @"The file type is not correct.";
+						}
 					}
-					string strMessage = string.Empty;
 					if (!string.IsNullOrEmpty(strMessage))
-					{//found unuploaded files
+					{//if error occured during upload
 						strMessage.Substring(0, strMessage.Length - 1);
+						oJson = Json(strMessage);
 					}
-					oJson = Json(strMessage);
 				}
 				catch (Exception e)
 				{//file operation error...
