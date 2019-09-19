@@ -3,9 +3,9 @@
 A single page Web application that can remove all comments from uploaed JSON file.
 
 ## Development Enviroment
-- Windows 10 + Visual Studio 2017 community
-- Or MacOS + Visual Studio 2017 community for Mac.
-- ASP.Net Core 2.0.
+- Windows 10 + Visual Studio 2019 community
+- Or MacOS + Visual Studio 2019 community for Mac.
+- ASP.Net Core 2.2.
 - [W3.css](https://www.w3schools.com/w3css/default.asp) for responsiveness
 - C#,Javascript
 
