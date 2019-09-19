@@ -3469,6 +3469,16 @@
     <Content Remove="wwwroot\lib\html5shiv\dist\html5shiv-printshiv.js" />
     <Content Remove="wwwroot\lib\html5shiv\dist\html5shiv.min.js" />
     <Content Remove="wwwroot\lib\html5shiv\dist\html5shiv-printshiv.min.js" />
+    <Content Remove="wwwroot\lib\FileSaver\FileSave.min.js" />
+    <Content Remove="wwwroot\lib\jQuery\.npmignore" />
+    <Content Remove="wwwroot\lib\jQuery\.eslintrc-node.json" />
+    <Content Remove="wwwroot\lib\jQuery\.npmrc" />
+    <Content Remove="wwwroot\lib\jQuery\.gitignore" />
+    <Content Remove="wwwroot\lib\jQuery\.eslintrc-browser.json" />
+    <Content Remove="wwwroot\lib\jQuery\.gitattributes" />
+    <Content Remove="wwwroot\lib\jQuery\.mailmap" />
+    <Content Remove="wwwroot\lib\jQuery\.travis.yml" />
+    <Content Remove="wwwroot\lib\jQuery\.eslintrc.json" />
   </ItemGroup>
   <ItemGroup>
     <None Remove=".bowerrc" />

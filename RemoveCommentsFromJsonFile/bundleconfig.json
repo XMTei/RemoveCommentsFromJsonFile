@@ -18,7 +18,7 @@
 		}
 	},
 	{
-		"outputFileName": "wwwroot/lib/FileSaver/FileSave.min.js",
+		"outputFileName": "wwwroot/lib/FileSaver/FileSaver.min.js",
 		"inputFiles": [
 			"wwwroot/lib/FileSaver/FileSaver.js"
 		],
