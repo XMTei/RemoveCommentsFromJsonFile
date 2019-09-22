@@ -89,7 +89,7 @@ namespace RemoveCommentsFromJsonFile.Controllers
 					ActionResult oJson = new EmptyResult();
 					HtmlLang oHtmlLang = new HtmlLang(value.Language);
 					//string strFontFile = System.IO.Path.Combine(this.m_oEnveroment.WebRootPath, string.Format("App_Data\\{0}.json",value.Language));
-					string strFontFile = System.IO.Path.Combine(this.m_oEnveroment.WebRootPath, @"App_Data\UIStrings.json");
+					string strFontFile = System.IO.Path.Combine(this.m_oEnveroment.WebRootPath, @"App_Data/UIStrings.json");
 					try
 					{
 						using (StreamReader file = System.IO.File.OpenText(strFontFile))
