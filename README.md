@@ -5,7 +5,8 @@ A single page Web application that can remove all comments from uploaed JSON fil
 ## Development Enviroment
 - Windows 10 + Visual Studio 2019 community
 - Or MacOS + Visual Studio 2019 community for Mac.
-- ASP.Net Core 2.2.
+- ASP.Net Core 3.0. System.Text.Json is used.
+- For ASP.Net core 2.x see [here](https://github.com/XMTei/RemoveCommentsFromJsonFile/tree/5fcd910f141554fc0bca452bf6082a4a946d595d). Newtonsoft.Json was used in this version, and use RegularExpressions to remove all the coments from Json fils.
 - [W3.css](https://www.w3schools.com/w3css/default.asp) for responsiveness
 - C#,Javascript
 
@@ -22,3 +23,4 @@ A single page Web application that can remove all comments from uploaed JSON fil
 ## Features
 - Remove all comments from uploaded JSON file and save it to download folder.
 - Multi-language UI.
+- Since System.Text.Json (.Net core 3.0) does not support dynamic, a Extension was made to help us to have a dynamic object.

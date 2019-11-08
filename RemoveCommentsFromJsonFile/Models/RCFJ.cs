@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace RemoveCommentsFromJsonFile.Models
 {
@@ -67,7 +66,7 @@ namespace RemoveCommentsFromJsonFile.Models
 		//call sequenc ID, copy from XXXXXXXXParam, when async
 		public int CallFiFoGUID { get; set; } = -1;
 		//data type for this.Data
-		[JsonConverter(typeof(StringEnumConverter))]
+		[JsonConverter(typeof(JsonStringEnumConverter))]
 		public DataType Type { get; set; } = DataType.Non;
 		//data
 		public string Data { get; set; } = string.Empty;
@@ -135,6 +134,28 @@ namespace RemoveCommentsFromJsonFile.Models
 					strRcd = "en-US";//目前没有对应其他国家
 				}
 				return strRcd;
+			}
+		}
+
+		//UIString.jsonのindexに対応する番号
+		public int LangguageIndex
+		{
+			get
+			{
+				int nRcd = 0;
+				switch(UIStringLang)
+				{
+					case "zh-Hans":
+						nRcd = 1;
+						break;
+					case "ja-JP":
+						nRcd = 2;
+						break;
+					default:
+						nRcd = 0;
+						break;
+				}
+				return nRcd;
 			}
 		}
 
